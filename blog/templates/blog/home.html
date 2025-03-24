@@ -1,0 +1,54 @@
+{% extends "blog/base.html" %}
+
+{% block title %}StorySphere - Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center bg-light p-5 rounded">
+    <h1 class="display-4">Welcome to StorySphere</h1>
+    <p class="lead">Your platform for sharing stories, experiences, and ideas.</p>
+    <hr class="my-4">
+    <p>Start exploring our collection of stories or create your own!</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'blog:blogs' %}" role="button">View All Stories</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Latest Posts</h5>
+                {% if latest_posts %}
+                    <ul class="list-unstyled">
+                    {% for post in latest_posts %}
+                        <li class="mb-2">
+                            <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+                            <small class="text-muted">by {{ post.author }} on {{ post.created_at|date:"F j, Y" }}</small>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No posts available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Popular Categories</h5>
+                {% if categories %}
+                    <ul class="list-unstyled">
+                    {% for category in categories %}
+                        <li class="mb-2">
+                            <a href="{{ category.get_absolute_url }}" class="text-decoration-none">{{ category.name }}</a>
+                            <small class="text-muted">({{ category.post_set.count }} posts)</small>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No categories available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

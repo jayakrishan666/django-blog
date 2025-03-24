@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StorySphere{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #f8fafc;
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--text-color) !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-link {
+            color: var(--text-color) !important;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        
+        .post-card {
+            transition: all 0.3s ease;
+            border: none;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            overflow: hidden;
+            height: 100%;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .post-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .post-card .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .sidebar {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+        
+        .sidebar h4 {
+            color: var(--text-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar ul li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .sidebar a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.5rem 0;
+            border-radius: 0.5rem;
+        }
+        
+        .sidebar a:hover {
+            color: var(--accent-color);
+            background-color: rgba(99, 102, 241, 0.1);
+            padding-left: 0.5rem;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 2rem 0;
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .jumbotron {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            padding: 4rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .jumbotron::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0));
+            z-index: 1;
+        }
+        
+        .jumbotron .content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card {
+            border: none;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .card-title {
+            color: var(--text-color);
+            font-weight: 700;
+        }
+        
+        .form-control {
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+        }
+        
+        .form-control:focus {
+            background-color: var(--primary-color);
+            border-color: var(--accent-color);
+            color: var(--text-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .btn-create {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+        }
+        
+        .btn-create:hover {
+            background-color: #059669;
+            border-color: #059669;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            border-color: var(--border-color);
+            color: var(--text-color);
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+            border-color: var(--border-color);
+            color: var(--text-color);
+            transform: translateY(-1px);
+        }
+        
+        .alert {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger-color);
+            color: #dc2626;
+        }
+        
+        .pagination .page-link {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-color);
+            border-radius: 0.5rem;
+            margin: 0 0.25rem;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+        
+        .pagination .page-link:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--border-color);
+            color: var(--accent-color);
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box input {
+            padding-right: 2.5rem;
+        }
+        
+        .search-box .btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+        }
+        
+        .search-box .btn:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-menu {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            color: var(--text-color);
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--accent-color);
+        }
+
+        .navbar-toggler {
+            border-color: var(--border-color);
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            border-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'blog:home' %}">
+                <i class="fas fa-globe-americas me-2"></i>StorySphere
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog:blogs' %}">
+                            <i class="fas fa-book-open me-1"></i>Stories
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog:bloggers' %}">
+                            <i class="fas fa-users me-1"></i>Writers
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog:categories' %}">
+                            <i class="fas fa-tags me-1"></i>Categories
+                        </a>
+                    </li> -->
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item me-2">
+                            <a class="btn btn-create" href="{% url 'blog:post_create' %}">
+                                <i class="fas fa-plus me-1"></i>Write Story
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i>{{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'blog:blogger_detail' user.pk %}">My Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'blog:register' %}">
+                                <i class="fas fa-user-plus me-1"></i>Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <div class="col-md-4">
+                    <div class="sidebar">
+                        <h4><i class="fas fa-compass me-2"></i>Explore</h4>
+                        <ul>
+                            <li><a href="{% url 'blog:home' %}"><i class="fas fa-home me-2"></i>Home</a></li>
+                            <li><a href="{% url 'blog:blogs' %}"><i class="fas fa-book-open me-2"></i>All Stories</a></li>
+                            <li><a href="{% url 'blog:bloggers' %}"><i class="fas fa-users me-2"></i>All Writers</a></li>
+                            <!-- <li><a href="{% url 'blog:categories' %}"><i class="fas fa-tags me-2"></i>Categories</a></li> -->
+                            {% if user.is_authenticated %}
+                                <li><a href="{% url 'blog:post_create' %}"><i class="fas fa-plus me-2"></i>Write Story</a></li>
+                                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            {% else %}
+                                <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                                <li><a href="{% url 'blog:register' %}"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                            {% endif %}
+                        </ul>
+
+                        <div class="search-box">
+                            <form action="{% url 'blog:blogs' %}" method="get">
+                                <div class="input-group">
+                                    <input type="text" name="q" class="form-control" placeholder="Search stories..." value="{{ request.GET.q }}">
+                                    <button class="btn" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-3">&copy; 2024 StorySphere. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
